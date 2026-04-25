@@ -56,35 +56,33 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    /* Horizontal stripes (brand identity) */
-    .hero::before {
-      content: '';
+    /* Lines rendered via inline SVG — no ::before needed */
+    .hero::before { display: none; }
+    .hero::after  { display: none; }
+
+    /* Hero SVG lines layer */
+    .hero-lines {
       position: absolute;
       inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 22px,
-        rgba(35,78,149,0.5) 22px,
-        rgba(35,78,149,0.5) 24px
-      );
+      width: 100%; height: 100%;
       pointer-events: none;
+      overflow: visible;
     }
-    /* Top-right glow ellipse */
+    /* Top-right ellipse */
     .hero-ellipse-tr {
       position: absolute;
       width: 140px; height: 160px;
       left: 287px; top: -15px;
-      background: radial-gradient(ellipse, rgba(79,172,244,0.55) 0%, transparent 70%);
+      background: rgba(79, 172, 244, 0.20);
       border-radius: 50%;
       pointer-events: none;
     }
-    /* Bottom-left glow ellipse */
+    /* Bottom-left ellipse */
     .hero-ellipse-bl {
       position: absolute;
       width: 180px; height: 140px;
       left: -43px; top: 164px;
-      background: radial-gradient(ellipse, rgba(246,201,84,0.45) 0%, transparent 70%);
+      background: rgba(246, 201, 84, 0.18);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -486,6 +484,9 @@
       .page { max-width: 600px; }
       .hero { height: 320px; }
       .hero-content { padding-top: 62px; gap: 36px; }
+      /* Tablet: scale ellipses slightly */
+      .hero-ellipse-tr { width: 170px; height: 190px; left: 510px; }
+      .hero-ellipse-bl { width: 220px; height: 170px; left: -50px; top: 210px; }
       .hero-title-img { width: 270px; height: 130px; }
       .hero-aapd-img  { width: 88px; height: 20px; object-fit: contain; }
       .hero-badge     { font-size: 17px; padding: 5px 12px; }
@@ -538,34 +539,27 @@
         padding: 64px 56px;
         overflow: hidden;
       }
-      /* Horizontal stripes */
-      .brand-panel::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent 0px, transparent 22px,
-          rgba(35,78,149,0.5) 22px, rgba(35,78,149,0.5) 24px
-        );
-        pointer-events: none;
-      }
-      /* Glow ellipses */
+      /* Brand panel lines via SVG child — no ::before needed */
+      .brand-panel::before { display: none; }
+      .brand-panel::after  { display: none; }
+
+      /* Top-right ellipse */
       .brand-panel-ellipse-tr {
         display: block;
         position: absolute;
         width: 220px; height: 260px;
         right: -50px; top: -30px;
-        background: radial-gradient(ellipse, rgba(79,172,244,0.5) 0%, transparent 70%);
+        background: rgba(79, 172, 244, 0.20);
         border-radius: 50%;
         pointer-events: none;
       }
+      /* Bottom-left ellipse */
       .brand-panel-ellipse-bl {
         display: block;
         position: absolute;
         width: 280px; height: 220px;
         left: -70px; bottom: -50px;
-        background: radial-gradient(ellipse, rgba(246,201,84,0.38) 0%, transparent 70%);
+        background: rgba(246, 201, 84, 0.18);
         border-radius: 50%;
         pointer-events: none;
       }
@@ -630,6 +624,46 @@
 
   <!-- ═══ DESKTOP BRAND PANEL ═══ -->
   <aside class="brand-panel">
+    <!-- Lines: same 11-stroke pattern scaled to full panel height -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;" viewBox="0 0 500 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 前 11 條：等比遞減 14.00 → 1.20，12px 間距（桌機加大起始寬度） -->
+      <line x1="-80" y1="1"   x2="600" y2="1"   stroke="#234E95" stroke-width="14.00" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="13"  x2="600" y2="13"  stroke="#234E95" stroke-width="10.95" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="25"  x2="600" y2="25"  stroke="#234E95" stroke-width="8.57"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="37"  x2="600" y2="37"  stroke="#234E95" stroke-width="6.70"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="49"  x2="600" y2="49"  stroke="#234E95" stroke-width="5.24"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="61"  x2="600" y2="61"  stroke="#234E95" stroke-width="4.10"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="73"  x2="600" y2="73"  stroke="#234E95" stroke-width="3.21"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="85"  x2="600" y2="85"  stroke="#234E95" stroke-width="2.51"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="97"  x2="600" y2="97"  stroke="#234E95" stroke-width="1.96"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="109" x2="600" y2="109" stroke="#234E95" stroke-width="1.53"  vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="121" x2="600" y2="121" stroke="#234E95" stroke-width="1.20"  vector-effect="non-scaling-stroke"/>
+      <!-- 第 12–32 條：維持 1.20px，12px 間距 -->
+      <line x1="-80" y1="133" x2="600" y2="133" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="145" x2="600" y2="145" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="157" x2="600" y2="157" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="169" x2="600" y2="169" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="181" x2="600" y2="181" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="193" x2="600" y2="193" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="205" x2="600" y2="205" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="217" x2="600" y2="217" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="229" x2="600" y2="229" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="241" x2="600" y2="241" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="253" x2="600" y2="253" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="265" x2="600" y2="265" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="277" x2="600" y2="277" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="289" x2="600" y2="289" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="301" x2="600" y2="301" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="313" x2="600" y2="313" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="325" x2="600" y2="325" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="337" x2="600" y2="337" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="349" x2="600" y2="349" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="361" x2="600" y2="361" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="373" x2="600" y2="373" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="385" x2="600" y2="385" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="397" x2="600" y2="397" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-80" y1="409" x2="600" y2="409" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+    </svg>
     <div class="brand-panel-ellipse-tr"></div>
     <div class="brand-panel-ellipse-bl"></div>
     <div class="brand-panel-content">
@@ -661,6 +695,20 @@
 
   <!-- ═══ HERO HEADER ═══ -->
   <div class="hero" id="hero">
+    <!-- Lines: 11 strokes, decreasing width top→bottom, occupy top ~42% of hero -->
+    <svg class="hero-lines" viewBox="0 0 390 275" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="-43" y1="1"   x2="500" y2="1"   stroke="#234E95" stroke-width="9.20" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="13"  x2="500" y2="13"  stroke="#234E95" stroke-width="7.50" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="25"  x2="500" y2="25"  stroke="#234E95" stroke-width="6.12" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="37"  x2="500" y2="37"  stroke="#234E95" stroke-width="4.99" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="49"  x2="500" y2="49"  stroke="#234E95" stroke-width="4.07" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="61"  x2="500" y2="61"  stroke="#234E95" stroke-width="3.32" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="73"  x2="500" y2="73"  stroke="#234E95" stroke-width="2.71" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="85"  x2="500" y2="85"  stroke="#234E95" stroke-width="2.21" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="97"  x2="500" y2="97"  stroke="#234E95" stroke-width="1.80" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="109" x2="500" y2="109" stroke="#234E95" stroke-width="1.47" vector-effect="non-scaling-stroke"/>
+      <line x1="-43" y1="121" x2="500" y2="121" stroke="#234E95" stroke-width="1.20" vector-effect="non-scaling-stroke"/>
+    </svg>
     <div class="hero-ellipse-tr"></div>
     <div class="hero-ellipse-bl"></div>
     <div class="hero-content">
