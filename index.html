@@ -109,10 +109,10 @@
     /* AAPD Logo image */
     .hero-aapd-img {
       width: 73px;
-      height: 17px;
+      height: auto;
       object-fit: contain;
-      object-position: center;
       flex-shrink: 0;
+      filter: brightness(0) invert(1);
     }
     /* AAPD text fallback */
     .hero-aapd-fallback {
@@ -126,8 +126,32 @@
     /* Title artwork image */
     .hero-title-img {
       width: 228px;
-      height: 110px;
+      height: auto;
       object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+    /* Title text fallback */
+    .hero-title-text {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-title-zh {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 900;
+      font-size: 30px;
+      color: #FFFFFF;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+    .hero-title-en {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
     /* Hero badge pill */
     .hero-badge {
@@ -434,6 +458,7 @@
       color: var(--text);
       line-height: 22px;
       text-align: left;
+      padding-left: 18px;
       width: 100%;
     }
     .mentor-tags { display: none; }
@@ -576,9 +601,8 @@
       }
       /* Logo + artwork sizing inside brand panel */
       .brand-panel .hero-title-block { gap: 16px; align-items: center; }
-      .brand-panel .hero-aapd-img    { width: 88px; height: 20px; object-fit: contain; }
-      .brand-panel .hero-aapd-fallback { font-size: 15px; }
-      .brand-panel .hero-title-img   { width: 310px; height: 150px; }
+      .brand-panel .hero-aapd-img    { width: 88px; }
+      .brand-panel .hero-title-img   { width: 310px; }
       .brand-panel .hero-badge       { font-size: 14px; }
 
       /* brand-divider / tagline / desc / pills hidden on desktop
@@ -643,6 +667,14 @@
     .btn-back:hover { opacity: 0.7; }
     .btn-back.hidden { display: none; }
 
+    /* ─── QUESTION HINT ─── */
+    .question-hint {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+      margin-top: -4px;
+    }
     /* ─── OPTION GRID (2-col) ─── */
     .options-grid {
       display: grid !important;
@@ -722,14 +754,18 @@
       <!-- AAPD Logo + Title artwork + Badge (same as hero) -->
       <div class="hero-title-block">
         <img class="hero-aapd-img"
-             src="https://www.figma.com/api/mcp/asset/b9cdce4a-fc28-4025-bc85-16590f3b0ec1"
+             src="https://raw.githubusercontent.com/ryanc286/aapd-coach-asset/main/AAPD%20Logo.svg"
              alt="AAPD"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
         <span class="hero-aapd-fallback">AAPD</span>
         <img class="hero-title-img"
-             src="https://www.figma.com/api/mcp/asset/080e38c5-6bba-4da2-aa8b-4e75fa75bf04"
+             src="https://raw.githubusercontent.com/ryanc286/aapd-coach-asset/main/Title.svg"
              alt="職涯教練陪跑 Career Coach Program"
-             onerror="this.style.display='none'">
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="hero-title-text">
+          <div class="hero-title-zh">職涯教練陪跑</div>
+          <div class="hero-title-en">Career Coach Program</div>
+        </div>
       </div>
       <div class="hero-badge">✦ 教練媒合測驗 ✦</div>
       <!-- Divider + copy block -->
@@ -767,15 +803,19 @@
       <div class="hero-title-block">
         <!-- AAPD Logo -->
         <img class="hero-aapd-img"
-             src="https://www.figma.com/api/mcp/asset/b9cdce4a-fc28-4025-bc85-16590f3b0ec1"
+             src="https://raw.githubusercontent.com/ryanc286/aapd-coach-asset/main/AAPD%20Logo.svg"
              alt="AAPD"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
         <span class="hero-aapd-fallback">AAPD</span>
         <!-- Title artwork -->
         <img class="hero-title-img"
-             src="https://www.figma.com/api/mcp/asset/080e38c5-6bba-4da2-aa8b-4e75fa75bf04"
+             src="https://raw.githubusercontent.com/ryanc286/aapd-coach-asset/main/Title.svg"
              alt="職涯教練陪跑 Career Coach Program"
-             onerror="this.style.display='none'">
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="hero-title-text">
+          <div class="hero-title-zh">職涯教練陪跑</div>
+          <div class="hero-title-en">Career Coach Program</div>
+        </div>
       </div>
       <div class="hero-badge">✦ 教練媒合測驗 ✦</div>
     </div>
@@ -815,6 +855,7 @@
           <div class="progress-pills" id="progress-pills"></div>
           <!-- Question text -->
           <p class="question-text" id="q-text"></p>
+          <p class="question-hint" id="q-hint"></p>
           <!-- Options -->
           <div class="options-list" id="options-list"></div>
           <!-- Navigation buttons -->
@@ -845,8 +886,7 @@
     <div class="screen" id="screen-result">
       <!-- Heading sits ABOVE the card -->
       <div class="result-heading">
-        <p class="result-title">你的最佳教練出爐了！</p>
-        <p class="result-sub">恭喜你邁出職涯探索的第一步！我們為你找到了最佳的職涯教練，立即預約與他聊聊吧</p>
+        <p class="result-title">你的最佳教練出爐了！<br>立即預約，和他聊聊你的職涯下一步。</p>
       </div>
       <!-- White card -->
       <div class="card">
@@ -860,7 +900,7 @@
             <!-- Photo below -->
             <div class="mentor-avatar" id="res-avatar"></div>
             <!-- Bio below photo -->
-            <p class="mentor-bio" id="res-bio"></p>
+            <ul class="mentor-bio" id="res-bio"></ul>
           </div>
           <div class="result-actions">
             <button class="btn-orange" id="res-cta" style="font-size:15px;font-weight:800;border-radius:12px;">立即預約諮詢 →</button>
@@ -880,10 +920,15 @@
 
 <script>
 // ════════════════════════════════════════════════════
-//  MENTORS — 替換成你們真實的教練資料
-//  Tags 需與題目選項文字完全一致
+//  BACKEND CONFIG
+//  部署 Apps Script 後，把 Web App URL 貼在這裡
 // ════════════════════════════════════════════════════
-const MENTORS = [
+const COACHES_API_URL = 'https://script.google.com/macros/s/AKfycby8CCGrgv41HkQjIy_jB3OTioRZEhXQloH6ZY4CdGkFtyz863FOWmLff9c-Tbcj5BE/exec';
+
+// ════════════════════════════════════════════════════
+//  MENTORS — 預設 placeholder，頁面載入後由 Sheets 取代
+// ════════════════════════════════════════════════════
+let MENTORS = [
   {
     id: "mentor_a",
     name: "教練 A（待填入）",
@@ -891,11 +936,12 @@ const MENTORS = [
     bio: "Bio 待填入",
     photoUrl: "",
     ctaUrl: "#",
-    career_stages: ["還在讀書或剛畢業找工作中", "有 1-2 年工作經驗"],
-    domains:   ["產品設計（Product Design）", "使用者研究（User Research）"],
-    services:  ["履歷／作品集健檢", "模擬面試", "職涯諮詢", "產品設計專業諮詢"],
-    expertise: ["UX 設計", "使用者研究", "產品策略", "設計系統"],
-    style:     ["結構化一點，具體建議與行動方向", "混合式，看情況調整"]
+    career_stages: "0-1,1-3",
+    domains:   "product-design",
+    services:  "職涯諮詢,作品集-履歷健檢,求職面試,產品設計專業諮詢",
+    expertise: "ux-設計,使用者研究,產品策略,設計系統",
+    industries: "any",
+    style:     "structured"
   },
   {
     id: "mentor_b",
@@ -904,11 +950,12 @@ const MENTORS = [
     bio: "Bio 待填入",
     photoUrl: "",
     ctaUrl: "#",
-    career_stages: ["有 1-2 年工作經驗", "想往更資深的職涯方向走"],
-    domains:   ["使用者研究（User Research）", "產品管理（Product Management）"],
-    services:  ["職涯諮詢", "模擬面試", "產品研究規劃"],
-    expertise: ["使用者研究", "產品管理", "產品策略", "溝通技巧"],
-    style:     ["彈性一點，像朋友聊天討論為主", "混合式，看情況調整"]
+    career_stages: "1-3,3-5",
+    domains:   "product-manager",
+    services:  "職涯諮詢,求職面試,產品研究規劃",
+    expertise: "使用者研究,產品管理,產品策略,溝通技巧",
+    industries: "any",
+    style:     "coaching"
   },
   {
     id: "mentor_c",
@@ -917,11 +964,12 @@ const MENTORS = [
     bio: "Bio 待填入",
     photoUrl: "",
     ctaUrl: "#",
-    career_stages: ["想往更資深的職涯方向走"],
-    domains:   ["產品設計（Product Design）", "產品管理（Product Management）"],
-    services:  ["產品設計專業諮詢", "職涯諮詢", "海外求職"],
-    expertise: ["UI 設計", "UX 設計", "設計系統", "Design Ops", "設計交付"],
-    style:     ["結構化一點，具體建議與行動方向"]
+    career_stages: "3-5,5+",
+    domains:   "product-design",
+    services:  "產品設計專業諮詢,職涯諮詢,海外求職及發展諮詢",
+    expertise: "ui-設計,ux-設計,設計系統",
+    industries: "any",
+    style:     "structured,direct"
   },
   {
     id: "mentor_d",
@@ -930,11 +978,12 @@ const MENTORS = [
     bio: "Bio 待填入",
     photoUrl: "",
     ctaUrl: "#",
-    career_stages: ["還在讀書或剛畢業找工作中", "有 1-2 年工作經驗"],
-    domains:   ["產品設計（Product Design）"],
-    services:  ["履歷／作品集健檢", "海外設計留學", "海外求職"],
-    expertise: ["平面設計", "UI 設計", "資訊架構", "內容文案"],
-    style:     ["彈性一點，像朋友聊天討論為主", "混合式，看情況調整"]
+    career_stages: "0-1,1-3",
+    domains:   "software-engineer",
+    services:  "作品集-履歷健檢,海外求職及發展諮詢",
+    expertise: "ui-設計,資訊架構",
+    industries: "any",
+    style:     "gentle"
   },
   {
     id: "mentor_e",
@@ -943,47 +992,78 @@ const MENTORS = [
     bio: "Bio 待填入",
     photoUrl: "",
     ctaUrl: "#",
-    career_stages: ["有 1-2 年工作經驗", "想往更資深的職涯方向走"],
-    domains:   ["產品管理（Product Management）", "使用者研究（User Research）"],
-    services:  ["產品研究規劃", "職涯諮詢", "模擬面試"],
-    expertise: ["產品管理", "產品策略", "使用者研究", "溝通技巧"],
-    style:     ["結構化一點，具體建議與行動方向", "混合式，看情況調整"]
+    career_stages: "1-3,3-5",
+    domains:   "product-manager",
+    services:  "產品研究規劃,職涯諮詢,求職面試",
+    expertise: "產品管理,產品策略,使用者研究,溝通技巧",
+    industries: "any",
+    style:     "strategic"
   }
 ]
 // ════════════════════════════════════════════════════
-//  QUESTIONS
+//  QUESTIONS  (同步自 Sheets 問卷題目與選項)
 // ════════════════════════════════════════════════════
 const QUESTIONS = [
   {
     id: "q1",
-    text: "你目前的職涯狀態？",
+    text: "你目前的職涯階段是？",
+    hint: "我們會根據你的階段推薦最適合的教練",
     type: "single",
-    options: ["還在讀書或剛畢業找工作中", "有 1-2 年工作經驗", "想往更資深的職涯方向走"]
+    field: "career_stages",
+    options: ["0–1 年經驗", "1–3 年經驗", "3–5 年經驗", "5 年以上"],
+    codes:   ["0-1",       "1-3",        "3-5",        "5+"]
+  },
+  {
+    id: "q_domain",
+    text: "你想諮詢哪個領域的教練？",
+    hint: "幫你精準配對最對口的教練",
+    type: "single",
+    field: "domains",
+    options: ["產品設計（Product Design）", "產品經理（Product Manager）", "軟體工程師（Software Engineer）", "資料工程師（Data Engineer）", "都可以 / 不確定"],
+    codes:   ["product-design",            "product-manager",            "software-engineer",            "data-engineer",            "any"]
   },
   {
     id: "q2",
-    text: "你想諮詢什麼領域的教練（可複選）",
+    text: "你最想解決什麼問題？",
+    hint: "可複選，我們會優先匹配能幫你的教練",
     type: "multi",
-    options: ["產品設計（Product Design）", "使用者研究（User Research）", "產品管理（Product Management）"]
+    field: "services",
+    weight: 0.35,
+    grid: true,
+    options: ["職涯方向諮詢", "作品集 / 履歷健檢", "求職面試準備", "面試簡報優化", "海外求職", "產品設計專業諮詢", "產品研究規劃", "職場困境突破", "領導力 / 管理諮詢", "設計工程交付", "HCI 人機互動指導"],
+    codes:   ["職涯諮詢", "作品集-履歷健檢", "求職面試", "面試準備", "海外求職及發展諮詢", "產品設計專業諮詢", "產品研究規劃", "突破公司裡遇到的困境、對齊自身職涯發展", "領導力諮詢", "設計工程交付", "人機互動領域學歷"]
   },
   {
     id: "q3",
-    text: "你覺得自己目前最需要什麼？（可複選）",
+    text: "你最想加強哪些能力？",
+    hint: "可複選，幫你找到該領域最強的教練",
     type: "multi",
-    options: ["履歷／作品集健檢", "模擬面試", "職涯諮詢", "海外求職", "海外設計留學", "產品設計專業諮詢", "產品研究規劃"]
+    field: "expertise",
+    weight: 0.30,
+    grid: true,
+    options: ["UX 設計", "UI 設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "Prototype 原型設計", "資料科學 / AI", "Design Ops", "設計交付（Handoff）", "UX 文案撰寫", "平面設計", "B2B 產品設計"],
+    codes:   ["ux-設計", "ui-設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "prototype-原型設計", "資料科學", "design-ops", "設計交付", "ux文案撰寫", "平面設計", "b2b產品設計"]
   },
   {
     id: "q4",
-    text: "你偏好教練的專業（可複選）",
+    text: "你目前或想進入的產業是？",
+    hint: "選擇最相關的，幫你配對有該產業經驗的教練",
     type: "multi",
+    field: "industries",
+    weight: 0.20,
     grid: true,
-    options: ["UI 設計", "UX 設計", "使用者研究", "產品策略", "設計系統", "產品管理", "資訊架構", "內容文案", "平面設計", "Design Ops", "溝通技巧", "設計交付"]
+    options: ["不限 / 還沒決定", "電商 / 零售", "金融 / 金融科技", "B2B / SaaS", "社群 / 社交平台", "媒體 / 內容", "教育", "設計 / 創意產業", "製造 / 硬體", "醫療 / 健康科技", "行銷 / 內容產業", "顧問業", "運動科技", "資安", "保險 / CRM", "運輸科技", "餐飲科技"],
+    codes:   ["any", "電子商務-零售", "金融-金融科技", "b2b2c-saas-服務", "社群-社交平台", "媒體業", "教育", "設計-創意", "製造-硬體", "醫療-健康科技", "行銷-內容產業", "顧問業", "運動科技", "資安", "保險-crm-系統", "運輸科技", "餐飲科技"]
   },
   {
     id: "q5",
-    text: "你偏好的教學形式是？",
+    text: "你偏好什麼樣的教練風格？",
+    hint: "沒有對錯，選最吸引你的",
     type: "single",
-    options: ["結構化一點，具體建議與行動方向", "彈性一點，像朋友聊天討論為主", "混合式，看情況調整"]
+    field: "style",
+    weight: 0.15,
+    options: ["教練式提問，引導你自己找答案", "結構化引導，給明確行動方案", "直接犀利，快速點出盲點", "都可以，不限"],
+    codes:   ["coaching", "structured", "direct", "any"]
   },
   {
     id: "name",
@@ -999,6 +1079,7 @@ const QUESTIONS = [
     inputType: "email"
   }
 ];
+
 
 // ════════════════════════════════════════════════════
 //  STATE
@@ -1029,6 +1110,8 @@ function renderProgressPills() {
 function renderQuestion() {
   const q = QUESTIONS[currentQ];
   document.getElementById('q-text').textContent = q.text;
+  const hintEl = document.getElementById('q-hint');
+  if (hintEl) hintEl.textContent = q.hint || '';
 
   const list = document.getElementById('options-list');
   list.innerHTML = '';
@@ -1047,22 +1130,27 @@ function renderQuestion() {
   } else if (q.type === 'multi') {
     if (q.grid) list.classList.add('options-grid');
     const selected = answers[q.id] || [];
-    q.options.forEach(opt => {
+    q.options.forEach((opt, i) => {
+      const code = q.codes ? q.codes[i] : opt;
+      const selectedCodes = answers[q.id] || [];
       const btn = document.createElement('button');
-      btn.className = 'option-btn' + (selected.includes(opt) ? ' selected' : '');
+      btn.className = 'option-btn' + (selectedCodes.includes(code) ? ' selected' : '');
       btn.textContent = opt;
-      btn.onclick = () => toggleOption(q.id, opt);
+      btn.dataset.code = code;
+      btn.onclick = () => toggleOption(q.id, code);
       list.appendChild(btn);
     });
     document.getElementById('btn-next').disabled = (answers[q.id] || []).length === 0;
 
   } else {
     // single
-    q.options.forEach(opt => {
+    q.options.forEach((opt, i) => {
+      const code = q.codes ? q.codes[i] : opt;
       const btn = document.createElement('button');
-      btn.className = 'option-btn' + (answers[q.id] === opt ? ' selected' : '');
+      btn.className = 'option-btn' + (answers[q.id] === code ? ' selected' : '');
       btn.textContent = opt;
-      btn.onclick = () => selectOption(q.id, opt);
+      btn.dataset.code = code;
+      btn.onclick = () => selectOption(q.id, code);
       list.appendChild(btn);
     });
     document.getElementById('btn-next').disabled = !answers[q.id];
@@ -1085,18 +1173,35 @@ function startQuiz() {
 function selectOption(qid, value) {
   answers[qid] = value;
   document.querySelectorAll('.option-btn').forEach(btn => {
-    btn.classList.toggle('selected', btn.textContent === value);
+    const code = btn.dataset.code !== undefined ? btn.dataset.code : btn.textContent;
+    btn.classList.toggle('selected', code === value);
   });
   document.getElementById('btn-next').disabled = false;
 }
 
 function toggleOption(qid, value) {
   if (!answers[qid]) answers[qid] = [];
-  const idx = answers[qid].indexOf(value);
-  if (idx === -1) answers[qid].push(value);
-  else answers[qid].splice(idx, 1);
+
+  // Mutual exclusivity: "any" clears others; others clear "any"
+  if (value === 'any') {
+    // Selecting "any" → keep only "any" (or toggle off if already selected)
+    if (answers[qid].includes('any')) {
+      answers[qid] = [];
+    } else {
+      answers[qid] = ['any'];
+    }
+  } else {
+    // Selecting a specific option → remove "any" first, then toggle this value
+    answers[qid] = answers[qid].filter(v => v !== 'any');
+    const idx = answers[qid].indexOf(value);
+    if (idx === -1) answers[qid].push(value);
+    else answers[qid].splice(idx, 1);
+  }
+
+  // Re-render selected state using data-code attribute
   document.querySelectorAll('.option-btn').forEach(btn => {
-    btn.classList.toggle('selected', answers[qid].includes(btn.textContent));
+    const code = btn.dataset.code !== undefined ? btn.dataset.code : btn.textContent;
+    btn.classList.toggle('selected', answers[qid].includes(code));
   });
   document.getElementById('btn-next').disabled = answers[qid].length === 0;
 }
@@ -1138,62 +1243,135 @@ function showCalculating() {
 // ════════════════════════════════════════════════════
 //  MATCHING
 // ════════════════════════════════════════════════════
-function computeScores() {
-  const q1 = answers['q1'] || '';
-  const q2 = answers['q2'] || [];
-  const q3 = answers['q3'] || [];
-  const q4 = answers['q4'] || [];
-  const q5 = answers['q5'] || '';
-
-  return MENTORS.map(m => {
-    let score = 0;
-    if (m.career_stages && m.career_stages.includes(q1))    score += 2;
-    if (m.domains)   score += q2.filter(d => m.domains.includes(d)).length   * 3;
-    if (m.services)  score += q3.filter(s => m.services.includes(s)).length  * 3;
-    if (m.expertise) score += q4.filter(e => m.expertise.includes(e)).length * 2;
-    if (m.style && m.style.includes(q5))                    score += 2;
-    return { mentor: m, score };
-  }).sort((a, b) => b.score - a.score);
+// Bio 轉列點：按換行拆分後渲染成 <li>
+function renderBio(el, bio) {
+  el.innerHTML = '';
+  const lines = (bio || '').split('\n').map(s => s.trim()).filter(Boolean);
+  lines.forEach(line => {
+    const li = document.createElement('li');
+    li.textContent = line;
+    el.appendChild(li);
+  });
 }
 
-function showResult() {
-  const sorted = computeScores();
+function splitTags(str) {
+  if (Array.isArray(str)) return str.map(s => String(s).trim()).filter(Boolean);
+  return (str || '').split(',').map(s => s.trim()).filter(Boolean);
+}
+
+function computeScores() {
+  const q1      = answers['q1']       || '';   // career stage code
+  const qDomain = answers['q_domain'] || '';   // domain code
+  const q2      = answers['q2']       || [];   // service codes
+  const q3      = answers['q3']       || [];   // expertise codes
+  const q4      = answers['q4']       || [];   // industry codes
+  const q5      = answers['q5']       || '';   // style code
+
+  return MENTORS.map(m => {
+    // Hard filter: domain (skip if user chose "any")
+    if (qDomain && qDomain !== 'any') {
+      const domains = splitTags(m.domains);
+      if (domains.length > 0 && !domains.includes(qDomain)) {
+        return { mentor: m, score: -1 };
+      }
+    }
+
+    let score = 0;
+    // Q1: career stage (weight 10%) — soft bonus, not a hard filter
+    if (q1) {
+      const stages = splitTags(m.career_stages);
+      if (stages.includes(q1)) score += 0.10;
+    }
+
+    // Q2: services (weight 35%)
+    const svc = splitTags(m.services);
+    score += q2.filter(c => svc.includes(c)).length * 0.35;
+
+    // Q3: expertise (weight 30%)
+    const exp = splitTags(m.expertise);
+    score += q3.filter(c => exp.includes(c)).length * 0.30;
+
+    // Q4: industry (weight 20%) — "any" skips filter
+    if (!q4.includes('any') && q4.length > 0) {
+      const ind = splitTags(m.industries);
+      score += q4.filter(c => ind.includes(c)).length * 0.20;
+    }
+
+    // Q5: style (weight 15%) — "any" skips scoring entirely
+    if (q5 && q5 !== 'any') {
+      const styles = splitTags(m.style);
+      if (styles.includes(q5)) score += 0.15;
+    }
+
+    return { mentor: m, score };
+  })
+  .filter(r => r.score >= 0)   // remove hard-filtered
+  .sort((a, b) => b.score - a.score);
+}
+
+async function showResult() {
+  await coachesReady; // 等教練資料載完再計算
+  let sorted = computeScores();
+  // Fallback: if domain hard filter removed everyone, ignore domain and re-score
+  if (sorted.length === 0) {
+    sorted = MENTORS.map(m => {
+      const q2 = answers['q2'] || [], q3 = answers['q3'] || [],
+            q4 = answers['q4'] || [], q5 = answers['q5'] || '';
+      let score = 0;
+      if (answers['q1']) {
+        const stages = splitTags(m.career_stages);
+        if (stages.includes(answers['q1'])) score += 0.10;
+      }
+      score += q2.filter(c => splitTags(m.services).includes(c)).length  * 0.35;
+      score += q3.filter(c => splitTags(m.expertise).includes(c)).length * 0.30;
+      if (!q4.includes('any') && q4.length > 0)
+        score += q4.filter(c => splitTags(m.industries).includes(c)).length * 0.20;
+      if (q5 && q5 !== 'any' && splitTags(m.style).includes(q5)) score += 0.15;
+      return { mentor: m, score };
+    }).sort((a, b) => b.score - a.score);
+  }
   const top = sorted[0];
+  if (!top) {
+    // 極端情況：所有教練都被過濾掉，直接顯示第一位
+    console.warn('[AAPD] No matching mentor found, using first mentor as fallback');
+    const fallback = MENTORS[0];
+    document.getElementById('res-name').textContent    = fallback.name;
+    document.getElementById('res-company').textContent = fallback.company;
+    renderBio(document.getElementById('res-bio'), fallback.bio);
+    document.getElementById('res-cta').onclick = () => window.open(fallback.ctaUrl || '#', '_blank');
+    showScreen('result');
+    return;
+  }
 
   // Populate result card
   const avatarEl = document.getElementById('res-avatar');
-  const sharedPhoto = MENTORS.find(m => m.avatarUrl)?.avatarUrl;
-  if (sharedPhoto) {
-    avatarEl.innerHTML = '<img src="' + sharedPhoto + '" alt="' + top.mentor.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+  if (top.mentor.photoUrl) {
+    avatarEl.innerHTML = '<img src="' + top.mentor.photoUrl + '" alt="' + top.mentor.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
   } else {
     avatarEl.innerHTML = '';
   }
   document.getElementById('res-name').textContent    = top.mentor.name;
   document.getElementById('res-company').textContent = top.mentor.company;
-  document.getElementById('res-bio').textContent     = top.mentor.bio;
+  renderBio(document.getElementById('res-bio'), top.mentor.bio);
   const ctaBtn = document.getElementById('res-cta');
   ctaBtn.onclick = () => window.open(top.mentor.ctaUrl || 'https://aapd.com.tw/coach-program', '_blank');
 
   showScreen('result');
 
-  // ── TRACKING HOOK ─────────────────────────────────
-  // 替換為你的分析工具，例如：
-  // gtag('event', 'mentor_matched', payload)
-  // fetch('/api/track', { method:'POST', body: JSON.stringify(payload) })
+  // ── 送出 Analytics ───────────────────────────────
   const payload = {
-    matched_mentor_id:   top.mentor.id,
-    matched_mentor_name: top.mentor.name,
-    name:  answers['name']  || '',
-    email: answers['email'] || '',
+    mentor_id: top.mentor.id,
+    name:      answers['name']  || '',
+    email:     answers['email'] || '',
     q1: answers['q1'] || '',
     q2: (answers['q2'] || []).join(', '),
     q3: (answers['q3'] || []).join(', '),
     q4: (answers['q4'] || []).join(', '),
-    q5: answers['q5'] || '',
-    timestamp: new Date().toISOString()
+    q5: answers['q5'] || ''
   };
   console.log('[AAPD 教練媒合紀錄]', payload);
-  // ── END TRACKING ──────────────────────────────────
+  postAnalytics(payload);
+  // ─────────────────────────────────────────────────
 }
 
 function retakeQuiz() {
@@ -1201,6 +1379,47 @@ function retakeQuiz() {
   currentQ = 0;
   showScreen('intro');
 }
+
+// ════════════════════════════════════════════════════
+//  GOOGLE SHEETS API
+// ════════════════════════════════════════════════════
+
+// 全域 Promise，讓 showResult 等資料載完再計算
+let coachesReady = Promise.resolve();
+
+// 頁面載入時背景 fetch 教練資料，取代 placeholder
+function loadCoaches() {
+  if (!COACHES_API_URL) return;
+  coachesReady = (async () => {
+    try {
+      const res  = await fetch(COACHES_API_URL);
+      const data = await res.json();
+      if (data.coaches && data.coaches.length > 0) {
+        MENTORS = data.coaches;
+        console.log('[AAPD] 教練資料已載入，共', MENTORS.length, '位');
+      } else {
+        console.warn('[AAPD] API 回傳空資料或格式異常', data);
+      }
+    } catch (err) {
+      console.warn('[AAPD] 無法載入教練資料，使用預設 placeholder', err);
+    }
+  })();
+}
+
+// 送出測驗結果到 Analytics sheet（fire-and-forget）
+function postAnalytics(payload) {
+  if (!COACHES_API_URL) return;
+  // 用 text/plain 避免 CORS preflight，Apps Script 仍可用 e.postData.contents 讀取
+  fetch(COACHES_API_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(payload)
+  }).catch(() => {}); // 不影響前端流程
+}
+
+// 啟動時就開始 fetch，背景進行
+loadCoaches();
 </script>
 </body>
 </html>
