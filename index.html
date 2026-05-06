@@ -26,6 +26,15 @@
       --green:       #1C7C4A;
       --green-bg:    #D6F5E5;
       --card-shadow: 0px 4px 24px 0px rgba(58,113,185,0.13);
+
+      /* ── Border Radius ── */
+      --radius-sm:   8px;
+      --radius-md:   12px;
+      --radius-lg:   16px;
+      --radius-full: 100px;
+
+      /* ── Transition ── */
+      --transition:  0.15s ease;
     }
 
     body {
@@ -164,7 +173,7 @@
       font-size: 16px;
       font-weight: 700;
       padding: 4px 8px;
-      border-radius: 100px;
+      border-radius: var(--radius-full);
       white-space: nowrap;
       letter-spacing: 0.02em;
     }
@@ -186,7 +195,7 @@
     .card {
       width: 100%;
       background: var(--white);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       box-shadow: var(--card-shadow);
       overflow: hidden;
     }
@@ -208,14 +217,14 @@
       background: var(--blue-dark);
       color: var(--white);
       border: none;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       padding: 16px;
       font-family: inherit;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       letter-spacing: 0.03em;
-      transition: opacity 0.15s;
+      transition: opacity var(--transition);
     }
     .btn-primary:hover { opacity: 0.88; }
     .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -225,14 +234,14 @@
       background: var(--orange);
       color: var(--white);
       border: none;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       padding: 16px;
       font-family: inherit;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       letter-spacing: 0.03em;
-      transition: opacity 0.15s;
+      transition: opacity var(--transition);
     }
     .btn-orange:hover { opacity: 0.88; }
 
@@ -262,7 +271,7 @@
       text-align: center;
     }
     .intro-sub {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 400;
       color: var(--subtitle);
       line-height: 22px;
@@ -280,7 +289,7 @@
       background: var(--blue-pale);
       color: var(--blue);
       border: none;
-      border-radius: 100px;
+      border-radius: var(--radius-full);
       padding: 6px 16px;
       font-size: 13px;
       font-weight: 500;
@@ -298,7 +307,7 @@
     .progress-pill {
       flex: 1;
       height: 6px;
-      border-radius: 100px;
+      border-radius: var(--radius-full);
       background: var(--border);
       transition: background 0.3s ease;
     }
@@ -324,16 +333,16 @@
       width: 100%;
       background: var(--bg);
       border: 2px solid transparent;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       padding: 24px 16px;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
       color: rgba(35, 78, 149, 0.7);
       text-align: center;
       cursor: pointer;
       line-height: 1.5;
-      transition: all 0.15s;
+      transition: all var(--transition);
     }
     .option-btn:hover { background: var(--blue-light); border-color: var(--border); color: var(--blue); }
     .option-btn.selected {
@@ -448,7 +457,7 @@
     }
     .mentor-avatar {
       width: 200px; height: 200px;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       background: #D3D3D3;
       display: flex;
       align-items: center;
@@ -459,11 +468,11 @@
     .mentor-avatar img {
       width: 100%; height: 100%;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
     }
     .mentor-bio {
       font-size: 14px;
-      color: var(--text);
+      color: var(--muted);
       line-height: 26px;
       text-align: left;
       padding-left: 18px;
@@ -485,14 +494,14 @@
       background: var(--white);
       color: var(--muted);
       border: 1.5px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       padding: 16px;
       font-family: inherit;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       text-align: center;
-      transition: opacity 0.15s;
+      transition: opacity var(--transition);
     }
     .btn-retake:hover { opacity: 0.75; }
 
@@ -503,7 +512,7 @@
       right: 16px;
       background: rgba(255,255,255,0.92);
       border: 1.5px solid var(--border);
-      border-radius: 20px;
+      border-radius: var(--radius-full);
       padding: 5px 14px;
       font-family: inherit;
       font-size: 12px;
@@ -512,7 +521,7 @@
       cursor: pointer;
       z-index: 200;
       backdrop-filter: blur(4px);
-      transition: background 0.15s, border-color 0.15s;
+      transition: background var(--transition), border-color var(--transition);
     }
     .lang-toggle:hover { background: var(--blue-light); border-color: var(--blue); }
 
@@ -597,11 +606,9 @@
         padding: 64px 56px;
         overflow: hidden;
       }
-      /* Brand panel lines via SVG child — no ::before needed */
       .brand-panel::before { display: none; }
       .brand-panel::after  { display: none; }
 
-      /* Top-right ellipse */
       .brand-panel-ellipse-tr {
         display: block;
         position: absolute;
@@ -611,7 +618,6 @@
         border-radius: 50%;
         pointer-events: none;
       }
-      /* Bottom-left ellipse */
       .brand-panel-ellipse-bl {
         display: block;
         position: absolute;
@@ -630,14 +636,11 @@
         z-index: 1;
         width: 100%;
       }
-      /* Logo + artwork sizing inside brand panel */
       .brand-panel .hero-title-block { gap: 16px; align-items: center; }
       .brand-panel .hero-aapd-img    { width: 88px; }
       .brand-panel .hero-title-img   { width: 310px; }
       .brand-panel .hero-badge       { font-size: 14px; }
 
-      /* brand-divider / tagline / desc / pills hidden on desktop
-         (this info lives in the right card, same as mobile/tablet) */
       .brand-divider,
       .brand-tagline,
       .brand-desc,
@@ -653,23 +656,17 @@
         padding: 64px 40px 80px;
         min-height: 100vh;
       }
-      /* Constrain screens to card width */
       .screen { max-width: 440px; }
-
-      /* Widen card & increase padding */
       .card-body { padding: 40px; }
 
-      /* Scale up typography */
       .intro-title   { font-size: 28px; line-height: 42px; }
       .question-text { font-size: 28px; line-height: 42px; }
       .mentor-name   { font-size: 26px; }
       .result-title  { font-size: 20px; }
 
-      /* Result screen: keep flex column on desktop */
       #screen-result.active { display: flex; width: 100%; }
       .result-heading { width: 100%; max-width: 440px; padding: 0 24px; }
 
-      /* Intro card: left-align text same as mobile/tablet */
       #screen-intro .intro-title-block { display: flex; }
       #screen-intro .pills-row         { display: flex; }
     }
@@ -685,7 +682,7 @@
       background: transparent;
       color: var(--muted);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       padding: 0 16px;
       height: 52px;
       font-family: inherit;
@@ -693,14 +690,14 @@
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      transition: opacity 0.15s;
+      transition: opacity var(--transition);
     }
     .btn-back:hover { opacity: 0.7; }
     .btn-back.hidden { display: none; }
 
     /* ─── QUESTION HINT ─── */
     .question-hint {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--subtitle);
       text-align: center;
       line-height: 1.5;
@@ -713,7 +710,7 @@
       gap: 10px;
     }
     .options-grid .option-btn {
-      font-size: 13px;
+      font-size: 14px;
       padding: 12px 8px;
     }
     /* ─── TEXT INPUT ─── */
@@ -725,9 +722,9 @@
       color: var(--text);
       background: var(--white);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color var(--transition);
     }
     .text-input:focus { border-color: var(--blue); }
     .text-input::placeholder { color: #aab8cc; }
@@ -930,7 +927,7 @@
             <ul class="mentor-bio" id="res-bio"></ul>
           </div>
           <div class="result-actions">
-            <button class="btn-orange" id="res-cta" style="font-size:15px;font-weight:800;border-radius:12px;">立即預約諮詢</button>
+            <button class="btn-orange" id="res-cta" style="font-size:15px;font-weight:800;">立即預約諮詢</button>
             <button class="btn-retake" onclick="retakeQuiz()">重新測驗</button>
           </div>
         </div>
@@ -1089,7 +1086,7 @@ const QUESTIONS = [
     hintEn: "",
     type: "single",
     field: "domains",
-    options:   ["產品設計", "產品經理", "軟體工程師", "資料工程師", "都可以 / 不確定"],
+    options:   ["產品設計", "產品經理", "軟體工程師", "資料工程師", "都可以"],
     optionsEn: ["Product Design", "Product Manager", "Software Engineer", "Data Engineer", "Any / Not sure"],
     codes:     ["product-design", "product-manager", "software-engineer", "data-engineer", "any"]
   },
@@ -1131,9 +1128,9 @@ const QUESTIONS = [
     field: "industries",
     weight: 0.20,
     grid: true,
-    options:   ["不限 / 還沒決定", "電商 / 零售", "金融 / 金融科技", "B2B / SaaS", "社群 / 社交平台", "媒體 / 內容", "教育", "設計 / 創意產業", "製造 / 硬體", "醫療 / 健康科技", "行銷 / 內容產業", "顧問業", "運動科技", "資安", "保險 / CRM", "運輸科技", "餐飲科技"],
-    optionsEn: ["No Preference", "E-commerce / Retail", "Finance / Fintech", "B2B / SaaS", "Social / Community", "Media / Content", "Education", "Design / Creative", "Manufacturing / Hardware", "Healthcare / Healthtech", "Marketing / Content", "Consulting", "Sports Tech", "Cybersecurity", "Insurance / CRM", "Transportation Tech", "Foodtech"],
-    codes:     ["any", "電子商務-零售", "金融-金融科技", "b2b2c-saas-服務", "社群-社交平台", "媒體業", "教育", "設計-創意", "製造-硬體", "醫療-健康科技", "行銷-內容產業", "顧問業", "運動科技", "資安", "保險-crm-系統", "運輸科技", "餐飲科技"]
+    options:   ["電商 / 零售", "金融 / 金融科技", "B2B / SaaS", "社群 / 社交平台", "媒體 / 內容", "教育", "設計 / 創意產業", "製造 / 硬體", "醫療 / 健康科技", "行銷 / 內容產業", "顧問業", "運動科技", "資安", "保險 / CRM", "運輸科技", "餐飲科技", "不限 / 還沒決定"],
+    optionsEn: ["E-commerce / Retail", "Finance / Fintech", "B2B / SaaS", "Social / Community", "Media / Content", "Education", "Design / Creative", "Manufacturing / Hardware", "Healthcare / Healthtech", "Marketing / Content", "Consulting", "Sports Tech", "Cybersecurity", "Insurance / CRM", "Transportation Tech", "Foodtech", "No Preference"],
+    codes:     ["電子商務-零售", "金融-金融科技", "b2b2c-saas-服務", "社群-社交平台", "媒體業", "教育", "設計-創意", "製造-硬體", "醫療-健康科技", "行銷-內容產業", "顧問業", "運動科技", "資安", "保險-crm-系統", "運輸科技", "餐飲科技", "any"]
   },
   {
     id: "q5",
@@ -1158,8 +1155,10 @@ const QUESTIONS = [
   },
   {
     id: "email",
-    text: "你的 Email（用於活動或折扣優惠通知）",
-    textEn: "Your Email (for event & promotion notifications)",
+    text: "你的 Email",
+    textEn: "Your Email",
+    hint: "用於活動或折扣優惠通知",
+    hintEn: "For event & promotion notifications",
     type: "text",
     placeholder: "輸入你的 Email",
     placeholderEn: "Enter your email",
@@ -1486,7 +1485,7 @@ async function showResult() {
   // Populate result card
   const avatarEl = document.getElementById('res-avatar');
   if (top.mentor.photoUrl) {
-    avatarEl.innerHTML = '<img src="' + top.mentor.photoUrl + '" alt="' + top.mentor.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+    avatarEl.innerHTML = '<img src="' + top.mentor.photoUrl + '" alt="' + top.mentor.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-md);">';
   } else {
     avatarEl.innerHTML = '';
   }
