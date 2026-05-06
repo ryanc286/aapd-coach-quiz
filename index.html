@@ -21,6 +21,7 @@
       --bg:          #F0F7FF;
       --text:        #1A2E4A;
       --muted:       #5C7A9B;
+      --subtitle:    #6B97C8;
       --border:      #C8DFF5;
       --green:       #1C7C4A;
       --green-bg:    #D6F5E5;
@@ -237,11 +238,18 @@
 
 
     /* ─── INTRO SCREEN ─── */
+    /* ─── TITLE + SUBTITLE 間距（全站共用）─── */
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
     .intro-title-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       text-align: center;
       color: var(--blue);
     }
@@ -256,7 +264,7 @@
     .intro-sub {
       font-size: 14px;
       font-weight: 400;
-      color: var(--muted);
+      color: var(--subtitle);
       line-height: 22px;
       text-align: center;
     }
@@ -330,8 +338,7 @@
     .option-btn:hover { background: var(--blue-light); border-color: var(--border); color: var(--blue); }
     .option-btn.selected {
       background: var(--blue-light);
-      border: 2.5px solid var(--blue);
-      border-radius: 12px;
+      border: 2px solid var(--blue);
       color: var(--blue);
       font-weight: 700;
     }
@@ -388,12 +395,12 @@
       text-align: center;
     }
     .result-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 800;
       color: var(--blue-dark);
       text-align: center;
       width: 100%;
-      line-height: 1.35;
+      line-height: 1.5;
     }
     .result-sub {
       font-size: 13px;
@@ -434,8 +441,9 @@
       text-align: center;
     }
     .mentor-company {
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--subtitle);
       text-align: center;
     }
     .mentor-avatar {
@@ -456,17 +464,20 @@
     .mentor-bio {
       font-size: 14px;
       color: var(--text);
-      line-height: 22px;
+      line-height: 26px;
       text-align: left;
       padding-left: 18px;
       width: 100%;
+    }
+    .mentor-bio li + li {
+      margin-top: 4px;
     }
     .mentor-tags { display: none; }
     /* result action buttons */
     .result-actions {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
       width: 100%;
     }
     .btn-retake {
@@ -484,6 +495,26 @@
       transition: opacity 0.15s;
     }
     .btn-retake:hover { opacity: 0.75; }
+
+    /* ─── LANG TOGGLE ─── */
+    .lang-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.92);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      cursor: pointer;
+      z-index: 200;
+      backdrop-filter: blur(4px);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .lang-toggle:hover { background: var(--blue-light); border-color: var(--blue); }
 
     /* ─── SLIDE ANIMATION ─── */
     @keyframes slideIn {
@@ -670,7 +701,7 @@
     /* ─── QUESTION HINT ─── */
     .question-hint {
       font-size: 13px;
-      color: var(--muted);
+      color: var(--subtitle);
       text-align: center;
       line-height: 1.5;
       margin-top: -4px;
@@ -703,6 +734,8 @@
   </style>
 </head>
 <body>
+
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
 
 <div class="page">
 
@@ -827,22 +860,15 @@
     <!-- ── INTRO SCREEN ── -->
     <div class="screen active" id="screen-intro">
       <div class="card">
-        <div class="card-body" style="gap:32px;">
-          <div style="display:flex;flex-direction:column;gap:16px;">
-            <div class="intro-title-block">
-              <p class="intro-title">找到最適合你的職涯教練</p>
-              <div class="intro-sub">
-                <p>回答 6 個問題，精準媒合最適合你的教練</p>
-                <p>你的職涯下一步，從這裡開始</p>
-              </div>
-            </div>
-            <div class="pills-row">
-              <span class="pill">只需 2 分鐘</span>
-              <span class="pill">個人化媒合</span>
-              <span class="pill">無需註冊</span>
+        <div class="card-body" style="gap:36px;">
+          <div class="intro-title-block">
+            <p class="intro-title">找到最適合你的職涯教練</p>
+            <div class="intro-sub">
+              <p>回答 6 個問題，精準媒合最適合你的教練</p>
+              <p>你的職涯下一步，從這裡開始</p>
             </div>
           </div>
-          <button class="btn-primary" onclick="startQuiz()" style="background:#3A71B9;height:52px;font-size:15px;font-weight:800;">開始測驗 →</button>
+          <button class="btn-primary" onclick="startQuiz()" style="background:#3A71B9;height:52px;font-size:15px;font-weight:800;">開始測驗</button>
         </div>
       </div>
     </div>
@@ -853,15 +879,17 @@
         <div class="card-body" style="gap:22px;">
           <!-- Progress pills (6 segments) -->
           <div class="progress-pills" id="progress-pills"></div>
-          <!-- Question text -->
-          <p class="question-text" id="q-text"></p>
-          <p class="question-hint" id="q-hint"></p>
+          <!-- Question text + hint -->
+          <div class="title-block">
+            <p class="question-text" id="q-text"></p>
+            <p class="question-hint" id="q-hint"></p>
+          </div>
           <!-- Options -->
           <div class="options-list" id="options-list"></div>
           <!-- Navigation buttons -->
           <div class="question-nav">
             <button class="btn-back" id="btn-back" onclick="prevQ()">←</button>
-            <button class="btn-primary" id="btn-next" onclick="nextQ()" disabled style="flex:1;">下一題 →</button>
+            <button class="btn-primary" id="btn-next" onclick="nextQ()" disabled style="flex:1;">下一題</button>
           </div>
         </div>
       </div>
@@ -871,7 +899,6 @@
     <div class="screen" id="screen-calc">
       <div class="card">
         <div id="calc-inner">
-          <p class="calc-emoji">🔍</p>
           <p class="calc-title">正在為你分析最適合的教練...</p>
           <div class="calc-dots">
             <div class="calc-dot"></div>
@@ -886,7 +913,7 @@
     <div class="screen" id="screen-result">
       <!-- Heading sits ABOVE the card -->
       <div class="result-heading">
-        <p class="result-title">你的最佳教練出爐了！<br>立即預約，和他聊聊你的職涯下一步。</p>
+        <p class="result-title">你的最佳教練出爐了！</p>
       </div>
       <!-- White card -->
       <div class="card">
@@ -903,15 +930,15 @@
             <ul class="mentor-bio" id="res-bio"></ul>
           </div>
           <div class="result-actions">
-            <button class="btn-orange" id="res-cta" style="font-size:15px;font-weight:800;border-radius:12px;">立即預約諮詢 →</button>
+            <button class="btn-orange" id="res-cta" style="font-size:15px;font-weight:800;border-radius:12px;">立即預約諮詢</button>
             <button class="btn-retake" onclick="retakeQuiz()">重新測驗</button>
           </div>
         </div>
       </div>
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:16px;padding-top:12px;width:100%;">
-        <a href="#" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:underline;" data-track="result-cs-link">私訊客服</a>
+        <a href="https://page.line.me/625rzwbo?oat__id=6162120&openQrModal=true" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:underline;" data-track="result-cs-link">回報問題</a>
         <span style="font-size:12px;color:var(--border);">｜</span>
-        <a href="#" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:underline;" data-track="result-coaches-link">瀏覽教練陣容</a>
+        <a href="https://aapd.com.tw/coach-program/coach-all" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:underline;" data-track="result-coaches-link">瀏覽教練陣容</a>
       </div>
     </div>
 
@@ -1001,81 +1028,141 @@ let MENTORS = [
   }
 ]
 // ════════════════════════════════════════════════════
+//  LANGUAGE
+// ════════════════════════════════════════════════════
+let currentLang = 'zh';
+
+const UI_STRINGS = {
+  zh: {
+    introTitle:  "找到最適合你的職涯教練",
+    introSub1:   "回答 6 個問題，精準媒合最適合你的教練",
+    introSub2:   "你的職涯下一步，從這裡開始",
+    startBtn:    "開始測驗",
+    nextBtn:     "下一題",
+    resultBtn:   "查看結果",
+    calcTitle:   "正在為你分析最適合的教練...",
+    resultTitle: "你的最佳教練出爐了！",
+    ctaBtn:      "立即預約諮詢",
+    retakeBtn:   "重新測驗",
+    reportLink:  "回報問題",
+    coachesLink: "瀏覽教練陣容",
+    langToggle:  "EN"
+  },
+  en: {
+    introTitle:  "Find Your Career Coach",
+    introSub1:   "Answer 6 questions to match with the right coach",
+    introSub2:   "Your next career move starts here",
+    startBtn:    "Get Started",
+    nextBtn:     "Next",
+    resultBtn:   "See My Match",
+    calcTitle:   "Finding your best-fit coach...",
+    resultTitle: "Your perfect coach is here!",
+    ctaBtn:      "Book a Session",
+    retakeBtn:   "Retake Quiz",
+    reportLink:  "Report an Issue",
+    coachesLink: "Browse All Coaches",
+    langToggle:  "中"
+  }
+};
+
+// ════════════════════════════════════════════════════
 //  QUESTIONS  (同步自 Sheets 問卷題目與選項)
 // ════════════════════════════════════════════════════
 const QUESTIONS = [
   {
     id: "q1",
     text: "你目前的職涯階段是？",
+    textEn: "What's your current career stage?",
     hint: "我們會根據你的階段推薦最適合的教練",
+    hintEn: "We'll recommend coaches suited to your experience level",
     type: "single",
     field: "career_stages",
-    options: ["0–1 年經驗", "1–3 年經驗", "3–5 年經驗", "5 年以上"],
-    codes:   ["0-1",       "1-3",        "3-5",        "5+"]
+    options:   ["0–1 年經驗", "1–3 年經驗", "3–5 年經驗", "5 年以上"],
+    optionsEn: ["0–1 Year",   "1–3 Years",  "3–5 Years",  "5+ Years"],
+    codes:     ["0-1",        "1-3",         "3-5",         "5+"]
   },
   {
     id: "q_domain",
     text: "你想諮詢哪個領域的教練？",
-    hint: "幫你精準配對最對口的教練",
+    textEn: "Which field are you looking for coaching in?",
+    hint: "",
+    hintEn: "",
     type: "single",
     field: "domains",
-    options: ["產品設計（Product Design）", "產品經理（Product Manager）", "軟體工程師（Software Engineer）", "資料工程師（Data Engineer）", "都可以 / 不確定"],
-    codes:   ["product-design",            "product-manager",            "software-engineer",            "data-engineer",            "any"]
+    options:   ["產品設計", "產品經理", "軟體工程師", "資料工程師", "都可以 / 不確定"],
+    optionsEn: ["Product Design", "Product Manager", "Software Engineer", "Data Engineer", "Any / Not sure"],
+    codes:     ["product-design", "product-manager", "software-engineer", "data-engineer", "any"]
   },
   {
     id: "q2",
     text: "你最想解決什麼問題？",
+    textEn: "What's your biggest challenge right now?",
     hint: "可複選，我們會優先匹配能幫你的教練",
+    hintEn: "Multi-select — we'll prioritize coaches who can help",
     type: "multi",
     field: "services",
     weight: 0.35,
     grid: true,
-    options: ["職涯方向諮詢", "作品集 / 履歷健檢", "求職面試準備", "面試簡報優化", "海外求職", "產品設計專業諮詢", "產品研究規劃", "職場困境突破", "領導力 / 管理諮詢", "設計工程交付", "HCI 人機互動指導"],
-    codes:   ["職涯諮詢", "作品集-履歷健檢", "求職面試", "面試準備", "海外求職及發展諮詢", "產品設計專業諮詢", "產品研究規劃", "突破公司裡遇到的困境、對齊自身職涯發展", "領導力諮詢", "設計工程交付", "人機互動領域學歷"]
+    options:   ["職涯方向諮詢", "作品集 / 履歷健檢", "求職面試準備", "面試簡報優化", "海外求職", "產品設計專業諮詢", "產品研究規劃", "職場困境突破", "領導力 / 管理諮詢", "設計工程交付", "人機互動領域學歷"],
+    optionsEn: ["Career Direction", "Portfolio / Resume Review", "Interview Prep", "Interview Presentation", "Overseas Job Search", "Product Design Consulting", "Product Research & Planning", "Breaking Through at Work", "Leadership & Management", "Design-to-Dev Handoff", "HCI Academic Guidance"],
+    codes:     ["職涯諮詢", "作品集-履歷健檢", "求職面試", "面試準備", "海外求職及發展諮詢", "產品設計專業諮詢", "產品研究規劃", "突破公司裡遇到的困境、對齊自身職涯發展", "領導力諮詢", "設計工程交付", "人機互動領域學歷"]
   },
   {
     id: "q3",
     text: "你最想加強哪些能力？",
+    textEn: "Which skills do you want to strengthen?",
     hint: "可複選，幫你找到該領域最強的教練",
+    hintEn: "Multi-select — we'll find coaches strongest in these areas",
     type: "multi",
     field: "expertise",
     weight: 0.30,
     grid: true,
-    options: ["UX 設計", "UI 設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "Prototype 原型設計", "資料科學 / AI", "Design Ops", "設計交付（Handoff）", "UX 文案撰寫", "平面設計", "B2B 產品設計"],
-    codes:   ["ux-設計", "ui-設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "prototype-原型設計", "資料科學", "design-ops", "設計交付", "ux文案撰寫", "平面設計", "b2b產品設計"]
+    options:   ["UX 設計", "UI 設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "原型設計", "資料科學 / AI", "設計運營", "設計交付", "UX 文案撰寫", "平面設計", "B2B 產品設計"],
+    optionsEn: ["UX Design", "UI Design", "User Research", "Product Strategy", "Product Management", "Design System", "Communication", "Information Architecture", "Prototyping", "Data Science / AI", "Design Ops", "Design Handoff", "UX Writing", "Visual Design", "B2B Product Design"],
+    codes:     ["ux-設計", "ui-設計", "使用者研究", "產品策略", "產品管理", "設計系統", "溝通技巧", "資訊架構", "prototype-原型設計", "資料科學", "design-ops", "設計交付", "ux文案撰寫", "平面設計", "b2b產品設計"]
   },
   {
     id: "q4",
     text: "你目前或想進入的產業是？",
-    hint: "選擇最相關的，幫你配對有該產業經驗的教練",
+    textEn: "Which industry are you in or aiming for?",
+    hint: "可複選，幫你配對有該產業經驗的教練",
+    hintEn: "Multi-select — we'll match coaches with relevant industry experience",
     type: "multi",
     field: "industries",
     weight: 0.20,
     grid: true,
-    options: ["不限 / 還沒決定", "電商 / 零售", "金融 / 金融科技", "B2B / SaaS", "社群 / 社交平台", "媒體 / 內容", "教育", "設計 / 創意產業", "製造 / 硬體", "醫療 / 健康科技", "行銷 / 內容產業", "顧問業", "運動科技", "資安", "保險 / CRM", "運輸科技", "餐飲科技"],
-    codes:   ["any", "電子商務-零售", "金融-金融科技", "b2b2c-saas-服務", "社群-社交平台", "媒體業", "教育", "設計-創意", "製造-硬體", "醫療-健康科技", "行銷-內容產業", "顧問業", "運動科技", "資安", "保險-crm-系統", "運輸科技", "餐飲科技"]
+    options:   ["不限 / 還沒決定", "電商 / 零售", "金融 / 金融科技", "B2B / SaaS", "社群 / 社交平台", "媒體 / 內容", "教育", "設計 / 創意產業", "製造 / 硬體", "醫療 / 健康科技", "行銷 / 內容產業", "顧問業", "運動科技", "資安", "保險 / CRM", "運輸科技", "餐飲科技"],
+    optionsEn: ["No Preference", "E-commerce / Retail", "Finance / Fintech", "B2B / SaaS", "Social / Community", "Media / Content", "Education", "Design / Creative", "Manufacturing / Hardware", "Healthcare / Healthtech", "Marketing / Content", "Consulting", "Sports Tech", "Cybersecurity", "Insurance / CRM", "Transportation Tech", "Foodtech"],
+    codes:     ["any", "電子商務-零售", "金融-金融科技", "b2b2c-saas-服務", "社群-社交平台", "媒體業", "教育", "設計-創意", "製造-硬體", "醫療-健康科技", "行銷-內容產業", "顧問業", "運動科技", "資安", "保險-crm-系統", "運輸科技", "餐飲科技"]
   },
   {
     id: "q5",
     text: "你偏好什麼樣的教練風格？",
-    hint: "沒有對錯，選最吸引你的",
-    type: "single",
+    textEn: "What coaching style do you prefer?",
+    hint: "",
+    hintEn: "",
+    type: "multi",
     field: "style",
     weight: 0.15,
-    options: ["教練式提問，引導你自己找答案", "結構化引導，給明確行動方案", "直接犀利，快速點出盲點", "都可以，不限"],
-    codes:   ["coaching", "structured", "direct", "any"]
+    options:   ["教練式提問，引導你自己找答案", "結構化引導，給明確行動方案", "直接犀利，快速點出盲點", "都可以，不限"],
+    optionsEn: ["Guided questioning — you find your own answers", "Structured coaching with clear action plans", "Direct & candid — quick to spot blind spots", "Any style works for me"],
+    codes:     ["coaching", "structured", "direct", "any"]
   },
   {
     id: "name",
     text: "你的姓名",
+    textEn: "Your Name",
     type: "text",
-    placeholder: "留下你的姓名"
+    placeholder: "留下你的姓名",
+    placeholderEn: "Enter your name"
   },
   {
     id: "email",
     text: "你的 Email（用於活動或折扣優惠通知）",
+    textEn: "Your Email (for event & promotion notifications)",
     type: "text",
     placeholder: "輸入你的 Email",
+    placeholderEn: "Enter your email",
     inputType: "email"
   }
 ];
@@ -1108,19 +1195,25 @@ function renderProgressPills() {
 }
 
 function renderQuestion() {
-  const q = QUESTIONS[currentQ];
-  document.getElementById('q-text').textContent = q.text;
+  const q    = QUESTIONS[currentQ];
+  const lang = currentLang;
+  const text = lang === 'en' ? (q.textEn || q.text) : q.text;
+  const hint = lang === 'en' ? (q.hintEn !== undefined ? q.hintEn : (q.hint || '')) : (q.hint || '');
+  const opts = lang === 'en' ? (q.optionsEn || q.options) : q.options;
+
+  document.getElementById('q-text').textContent = text;
   const hintEl = document.getElementById('q-hint');
-  if (hintEl) hintEl.textContent = q.hint || '';
+  if (hintEl) hintEl.textContent = hint;
 
   const list = document.getElementById('options-list');
   list.innerHTML = '';
   list.classList.remove('options-grid');
 
   if (q.type === 'text') {
+    const ph = lang === 'en' ? (q.placeholderEn || q.placeholder || '') : (q.placeholder || '');
     const input = document.createElement('input');
     input.type = q.inputType || 'text';
-    input.placeholder = q.placeholder || '';
+    input.placeholder = ph;
     input.className = 'text-input';
     input.value = answers[q.id] || '';
     input.oninput = () => { answers[q.id] = input.value; };
@@ -1128,9 +1221,8 @@ function renderQuestion() {
     document.getElementById('btn-next').disabled = false;
 
   } else if (q.type === 'multi') {
-    if (q.grid) list.classList.add('options-grid');
-    const selected = answers[q.id] || [];
-    q.options.forEach((opt, i) => {
+    if (q.grid && !(currentLang === 'en' && q.id !== 'q4')) list.classList.add('options-grid');
+    opts.forEach((opt, i) => {
       const code = q.codes ? q.codes[i] : opt;
       const selectedCodes = answers[q.id] || [];
       const btn = document.createElement('button');
@@ -1144,7 +1236,7 @@ function renderQuestion() {
 
   } else {
     // single
-    q.options.forEach((opt, i) => {
+    opts.forEach((opt, i) => {
       const code = q.codes ? q.codes[i] : opt;
       const btn = document.createElement('button');
       btn.className = 'option-btn' + (answers[q.id] === code ? ' selected' : '');
@@ -1157,9 +1249,50 @@ function renderQuestion() {
   }
 
   const nextBtn = document.getElementById('btn-next');
-  nextBtn.textContent = currentQ === QUESTIONS.length - 1 ? '查看結果 →' : '下一題 →';
+  const s = UI_STRINGS[lang];
+  nextBtn.textContent = currentQ === QUESTIONS.length - 1 ? s.resultBtn : s.nextBtn;
   document.getElementById('btn-back').classList.toggle('hidden', currentQ === 0);
   renderProgressPills();
+}
+
+// ════════════════════════════════════════════════════
+//  LANGUAGE TOGGLE
+// ════════════════════════════════════════════════════
+function toggleLang() {
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  updateStaticStrings();
+  if (document.getElementById('screen-question').classList.contains('active')) {
+    renderQuestion();
+  }
+}
+
+function updateStaticStrings() {
+  const s = UI_STRINGS[currentLang];
+  // Toggle button
+  const toggleBtn = document.getElementById('lang-toggle');
+  if (toggleBtn) toggleBtn.textContent = s.langToggle;
+  // Intro screen
+  const introTitle = document.querySelector('.intro-title');
+  if (introTitle) introTitle.textContent = s.introTitle;
+  const introSubs = document.querySelectorAll('.intro-sub p');
+  if (introSubs[0]) introSubs[0].textContent = s.introSub1;
+  if (introSubs[1]) introSubs[1].textContent = s.introSub2;
+  const startBtn = document.querySelector('button[onclick="startQuiz()"]');
+  if (startBtn) startBtn.textContent = s.startBtn;
+  // Calculating screen
+  const calcTitle = document.querySelector('.calc-title');
+  if (calcTitle) calcTitle.textContent = s.calcTitle;
+  // Result screen
+  const resultTitle = document.querySelector('.result-title');
+  if (resultTitle) resultTitle.textContent = s.resultTitle;
+  const ctaBtn = document.getElementById('res-cta');
+  if (ctaBtn) ctaBtn.textContent = s.ctaBtn;
+  const retakeBtn = document.querySelector('.btn-retake');
+  if (retakeBtn) retakeBtn.textContent = s.retakeBtn;
+  const reportLink = document.querySelector('[data-track="result-cs-link"]');
+  if (reportLink) reportLink.textContent = s.reportLink;
+  const coachesLink = document.querySelector('[data-track="result-coaches-link"]');
+  if (coachesLink) coachesLink.textContent = s.coachesLink;
 }
 
 // ════════════════════════════════════════════════════
@@ -1196,6 +1329,13 @@ function toggleOption(qid, value) {
     const idx = answers[qid].indexOf(value);
     if (idx === -1) answers[qid].push(value);
     else answers[qid].splice(idx, 1);
+  }
+
+  // Auto-switch to "any" if all 3 style options are selected (q5 only)
+  if (qid === 'q5' && !answers[qid].includes('any')) {
+    if (['coaching', 'structured', 'direct'].every(c => answers[qid].includes(c))) {
+      answers[qid] = ['any'];
+    }
   }
 
   // Re-render selected state using data-code attribute
