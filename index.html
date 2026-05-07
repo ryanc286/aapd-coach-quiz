@@ -252,7 +252,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 14px;
     }
     .intro-title-block {
       display: flex;
@@ -266,7 +266,7 @@
       font-size: 26px;
       font-weight: 800;
       color: var(--blue);
-      line-height: 38px;
+      line-height: 1.25;
       letter-spacing: 0.01em;
       text-align: center;
     }
@@ -318,7 +318,7 @@
       font-size: 26px;
       font-weight: 800;
       color: var(--blue);
-      line-height: 38px;
+      line-height: 1.2;
       text-align: center;
       letter-spacing: 0.01em;
     }
@@ -508,8 +508,8 @@
     /* ─── LANG TOGGLE ─── */
     .lang-toggle {
       position: fixed;
-      top: 16px;
-      right: 16px;
+      bottom: 24px;
+      right: 24px;
       background: rgba(255,255,255,0.92);
       border: 1.5px solid var(--border);
       border-radius: var(--radius-full);
@@ -522,6 +522,10 @@
       z-index: 200;
       backdrop-filter: blur(4px);
       transition: background var(--transition), border-color var(--transition);
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
     }
     .lang-toggle:hover { background: var(--blue-light); border-color: var(--blue); }
 
@@ -559,9 +563,9 @@
       .hero-badge     { font-size: 17px; padding: 5px 12px; }
       .content        { padding: 28px 20px 52px; }
       .card-body      { padding: 32px; }
-      .intro-title    { font-size: 30px; line-height: 44px; text-align: center; }
+      .intro-title    { font-size: 30px; line-height: 1.25; text-align: center; }
       .intro-sub      { font-size: 15px; text-align: center; }
-      .question-text  { font-size: 28px; line-height: 42px; }
+      .question-text  { font-size: 28px; line-height: 1.2; }
       .mentor-name    { font-size: 26px; }
       .result-title   { font-size: 20px; }
     }
@@ -659,8 +663,8 @@
       .screen { max-width: 440px; }
       .card-body { padding: 40px; }
 
-      .intro-title   { font-size: 28px; line-height: 42px; }
-      .question-text { font-size: 28px; line-height: 42px; }
+      .intro-title   { font-size: 28px; line-height: 1.25; }
+      .question-text { font-size: 28px; line-height: 1.2; }
       .mentor-name   { font-size: 26px; }
       .result-title  { font-size: 20px; }
 
@@ -700,8 +704,7 @@
       font-size: 14px;
       color: var(--subtitle);
       text-align: center;
-      line-height: 1.5;
-      margin-top: -4px;
+      line-height: 1.6;
     }
     /* ─── OPTION GRID (2-col) ─── */
     .options-grid {
@@ -797,7 +800,7 @@
           <div class="hero-title-en">Career Coach Program</div>
         </div>
       </div>
-      <div class="hero-badge">✦ 教練媒合測驗 ✦</div>
+      <div class="hero-badge" id="badge-panel">✦ 教練媒合測驗 ✦</div>
       <!-- Divider + copy block -->
       <div class="brand-divider"></div>
       <p class="brand-tagline">找到最適合<br>你的職涯教練</p>
@@ -847,7 +850,7 @@
           <div class="hero-title-en">Career Coach Program</div>
         </div>
       </div>
-      <div class="hero-badge">✦ 教練媒合測驗 ✦</div>
+      <div class="hero-badge" id="badge-hero">✦ 教練媒合測驗 ✦</div>
     </div>
   </div>
 
@@ -1043,11 +1046,12 @@ const UI_STRINGS = {
     retakeBtn:   "重新測驗",
     reportLink:  "回報問題",
     coachesLink: "瀏覽教練陣容",
+    badge:       "✦ 教練媒合測驗 ✦",
     langToggle:  "EN"
   },
   en: {
     introTitle:  "Find Your Career Coach",
-    introSub1:   "Answer 6 questions to match with the right coach",
+    introSub1:   "6 questions to find your perfect coach match",
     introSub2:   "Your next career move starts here",
     startBtn:    "Get Started",
     nextBtn:     "Next",
@@ -1058,6 +1062,7 @@ const UI_STRINGS = {
     retakeBtn:   "Retake Quiz",
     reportLink:  "Report an Issue",
     coachesLink: "Browse All Coaches",
+    badge:       "✦ Coach Matching Quiz ✦",
     langToggle:  "中"
   }
 };
@@ -1095,7 +1100,7 @@ const QUESTIONS = [
     text: "你最想解決什麼問題？",
     textEn: "What's your biggest challenge right now?",
     hint: "可複選，我們會優先匹配能幫你的教練",
-    hintEn: "Multi-select — we'll prioritize coaches who can help",
+    hintEn: "Select all that apply. We'll match coaches who can help.",
     type: "multi",
     field: "services",
     weight: 0.35,
@@ -1109,7 +1114,7 @@ const QUESTIONS = [
     text: "你最想加強哪些能力？",
     textEn: "Which skills do you want to strengthen?",
     hint: "可複選，幫你找到該領域最強的教練",
-    hintEn: "Multi-select — we'll find coaches strongest in these areas",
+    hintEn: "Select all that apply. We'll find the strongest match.",
     type: "multi",
     field: "expertise",
     weight: 0.30,
@@ -1123,7 +1128,7 @@ const QUESTIONS = [
     text: "你目前或想進入的產業是？",
     textEn: "Which industry are you in or aiming for?",
     hint: "可複選，幫你配對有該產業經驗的教練",
-    hintEn: "Multi-select — we'll match coaches with relevant industry experience",
+    hintEn: "Select all that apply. We'll match coaches with relevant experience.",
     type: "multi",
     field: "industries",
     weight: 0.20,
@@ -1142,7 +1147,7 @@ const QUESTIONS = [
     field: "style",
     weight: 0.15,
     options:   ["教練式提問，引導你自己找答案", "結構化引導，給明確行動方案", "直接犀利，快速點出盲點", "都可以，不限"],
-    optionsEn: ["Guided questioning — you find your own answers", "Structured coaching with clear action plans", "Direct & candid — quick to spot blind spots", "Any style works for me"],
+    optionsEn: ["Guided questioning: you find your own answers", "Structured coaching with clear action plans", "Direct & candid: quick to spot blind spots", "Any style works for me"],
     codes:     ["coaching", "structured", "direct", "any"]
   },
   {
@@ -1263,6 +1268,7 @@ function toggleLang() {
   if (document.getElementById('screen-question').classList.contains('active')) {
     renderQuestion();
   }
+  if (document.activeElement) document.activeElement.blur();
 }
 
 function updateStaticStrings() {
@@ -1288,6 +1294,11 @@ function updateStaticStrings() {
   if (ctaBtn) ctaBtn.textContent = s.ctaBtn;
   const retakeBtn = document.querySelector('.btn-retake');
   if (retakeBtn) retakeBtn.textContent = s.retakeBtn;
+  // Hero badge
+  ['badge-hero', 'badge-panel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = s.badge;
+  });
   const reportLink = document.querySelector('[data-track="result-cs-link"]');
   if (reportLink) reportLink.textContent = s.reportLink;
   const coachesLink = document.querySelector('[data-track="result-coaches-link"]');
@@ -1422,18 +1433,25 @@ function computeScores() {
       if (stages.includes(q1)) score += 0.10;
     }
 
-    // Q2: services (weight 35%)
+    // Q2: services (weight 35%) — normalized by user's selection count
     const svc = splitTags(m.services);
-    score += q2.filter(c => svc.includes(c)).length * 0.35;
+    if (q2.length > 0) {
+      const svcMatch = q2.filter(c => svc.includes(c)).length;
+      score += Math.min(svcMatch / q2.length, 1) * 0.35;
+    }
 
-    // Q3: expertise (weight 30%)
+    // Q3: expertise (weight 30%) — normalized by user's selection count
     const exp = splitTags(m.expertise);
-    score += q3.filter(c => exp.includes(c)).length * 0.30;
+    if (q3.length > 0) {
+      const expMatch = q3.filter(c => exp.includes(c)).length;
+      score += Math.min(expMatch / q3.length, 1) * 0.30;
+    }
 
-    // Q4: industry (weight 20%) — "any" skips filter
+    // Q4: industry (weight 20%) — normalized, "any" skips scoring
     if (!q4.includes('any') && q4.length > 0) {
       const ind = splitTags(m.industries);
-      score += q4.filter(c => ind.includes(c)).length * 0.20;
+      const indMatch = q4.filter(c => ind.includes(c)).length;
+      score += Math.min(indMatch / q4.length, 1) * 0.20;
     }
 
     // Q5: style (weight 15%) — "any" skips scoring entirely
@@ -1461,10 +1479,10 @@ async function showResult() {
         const stages = splitTags(m.career_stages);
         if (stages.includes(answers['q1'])) score += 0.10;
       }
-      score += q2.filter(c => splitTags(m.services).includes(c)).length  * 0.35;
-      score += q3.filter(c => splitTags(m.expertise).includes(c)).length * 0.30;
+      if (q2.length > 0) score += Math.min(q2.filter(c => splitTags(m.services).includes(c)).length  / q2.length, 1) * 0.35;
+      if (q3.length > 0) score += Math.min(q3.filter(c => splitTags(m.expertise).includes(c)).length / q3.length, 1) * 0.30;
       if (!q4.includes('any') && q4.length > 0)
-        score += q4.filter(c => splitTags(m.industries).includes(c)).length * 0.20;
+        score += Math.min(q4.filter(c => splitTags(m.industries).includes(c)).length / q4.length, 1) * 0.20;
       if (q5 && q5 !== 'any' && splitTags(m.style).includes(q5)) score += 0.15;
       return { mentor: m, score };
     }).sort((a, b) => b.score - a.score);
