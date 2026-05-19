@@ -1006,7 +1006,8 @@
 //  BACKEND CONFIG
 //  部署 Apps Script 後，把 Web App URL 貼在這裡
 // ════════════════════════════════════════════════════
-const COACHES_API_URL = 'https://script.google.com/macros/s/AKfycby8CCGrgv41HkQjIy_jB3OTioRZEhXQloH6ZY4CdGkFtyz863FOWmLff9c-Tbcj5BE/exec';
+const COACHES_API_URL    = 'https://script.google.com/macros/s/AKfycby8CCGrgv41HkQjIy_jB3OTioRZEhXQloH6ZY4CdGkFtyz863FOWmLff9c-Tbcj5BE/exec';
+const ANALYTICS_TOKEN   = 'aapd-quiz-2026';   // 和 Apps Script 端保持一致
 
 // ════════════════════════════════════════════════════
 //  MENTORS — 預設 placeholder，頁面載入後由 Sheets 取代
@@ -1573,6 +1574,7 @@ async function showResult() {
 
   // ── 送出 Analytics ───────────────────────────────
   const payload = {
+    token:     ANALYTICS_TOKEN,
     mentor_id: top.mentor.id,
     name:      answers['name']  || '',
     email:     answers['email'] || '',
@@ -1582,7 +1584,6 @@ async function showResult() {
     q4: (answers['q4'] || []).join(', '),
     q5: answers['q5'] || ''
   };
-  console.log('[AAPD 教練媒合紀錄]', payload);
   postAnalytics(payload);
   // ─────────────────────────────────────────────────
 }
